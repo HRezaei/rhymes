@@ -1,4 +1,5 @@
 from rhyme_metric import rhyme_similarity
+from utility import *
 
 
 def cluster_rhyme_similarity(words):
@@ -28,7 +29,7 @@ def assess_clusters():
     from itertools import chain
     from random import random
 
-    clusters = read_clusters()
+    clusters = read_clusters("w2vClusters.txt")
     print("Clusters avg:", clusters_average_rhyme_similarity(clusters))
 
     random_clusters = {}
@@ -46,8 +47,38 @@ def assess_clusters():
     #return sorted_stats
 
 
-def read_clusters():
-    content = read_file("w2vClusters.txt")
+def compare_clusters(clusters1, clusters2):
+    pairs1 = []
+    for cluster in clusters1:
+        for i in range(len(cluster)):
+            for j in range(i + 1, len(cluster)):
+                if cluster[i] < cluster[j]:
+                    pairs1.append((cluster[i], cluster[j]))
+                else:
+                    pairs1.append((cluster[j], cluster[i]))
+
+    print("clusters1 pairs: " + str(len(pairs1)))
+    matches = 0
+    for cluster in clusters2:
+        for i in range(len(cluster)):
+            for j in range(i + 1, len(cluster)):
+                if cluster[i] < cluster[j]:
+                    pair = (cluster[i], cluster[j])
+                else:
+                    pair = (cluster[j], cluster[i])
+                if pair in pairs1:
+                    matches += 1
+                    print(matches)
+    return matches
+
+
+def read_clusters(path):
+    '''
+    Reads a text file, each line representing a cluster, each line a comma separated list of words
+    :param path: string path to file
+    :return: array of clusters
+    '''
+    content = read_file(path)
     lines = content.split("\n")
     clusters = [[word.strip() for word in line.split(",") if len(word.strip())] for line in lines]
     return clusters
