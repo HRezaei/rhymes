@@ -1,7 +1,7 @@
 
 
 
-f = open('/home/hrezaei/Documents/Arabic-Original.csv')
+f = open('data/Arabic-Original.csv')
 c = f.read()[1:]
 l = c.split('\n')
 lp = [k.split('|') for k in l]
@@ -41,4 +41,6 @@ def writeForWord2Vec():
     json.dump(x, f, ensure_ascii=False)
     f.close()
 
-writeForWord2Vec()
+
+if __name__ == '__main__':
+    writeForWord2Vec()

@@ -1,4 +1,4 @@
-from utility import json_read
+from utils import load_json
 
 def rhyme_similarity(word1, word2):
     '''cache_key = word1+'@'+word2 if word1 > word2 else word2+'@'+word1

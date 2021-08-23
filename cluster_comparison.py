@@ -1,6 +1,9 @@
 from rhyme_metric import rhyme_similarity
-from utility import *
-
+from utils import *
+import matplotlib.pyplot as plt
+from itertools import chain
+from random import random
+    
 
 def cluster_rhyme_similarity(words):
     sim = 0
@@ -19,18 +22,16 @@ def clusters_average_rhyme_similarity(clusters):
             continue
         similarities.append(100*cluster_rhyme_similarity(c))
 
-    import matplotlib.pyplot as plt
     plt.hist(similarities, 100)
-    plt.show()
-    return sum(similarities) / len(similarities)
+    #plt.show()
+    average = sum(similarities) / len(similarities)
+    return average, plt
 
 
-def assess_clusters():
-    from itertools import chain
-    from random import random
-
-    clusters = read_clusters("w2vClusters.txt")
-    print("Clusters avg:", clusters_average_rhyme_similarity(clusters))
+def assess_clusters(clusters):
+    
+    avg, plot = clusters_average_rhyme_similarity(clusters)
+    print("Clusters avg:", avg)
 
     random_clusters = {}
     all_words = list(chain.from_iterable(clusters))
@@ -41,8 +42,12 @@ def assess_clusters():
         else:
             random_clusters[toss] = [w]
 
-    print("Random Clusters avg:", clusters_average_rhyme_similarity(list(random_clusters.values())))
+    avg, plot = clusters_average_rhyme_similarity(list(random_clusters.values()))
+    plot.xlabel("Average rhytmic similarity (percentage)", fontsize=14)  
+    plot.ylabel("Number of clusters", fontsize=14)
 
+    print("Random Clusters avg:", avg)
+    return plot
     #sorted_stats = {k: str(v) + " " + ", ".join(clusters[k]) for k, v in sorted(cluster_stats.items(), key=lambda item: item[1])}
     #return sorted_stats
 
