@@ -10,7 +10,7 @@ def rhyme_similarity(word1, word2):
     min_len = min(len1, len2)
     sim = 0
     for i in range(0, min_len):
-        if word1[len1-i-1] == word2[len2-i-1] or (word1[len1-i-1] == '_') or (word2[len2-i-1] == '_'):
+        if word1[-i-1] == word2[-i-1] or (word1[-i-1] == '_') or (word2[-i-1] == '_'):
             sim = sim + 1
     similarity = sim / (len1 + len2 - min_len)
     #rhyme_similarity.cache[cache_key] = similarity

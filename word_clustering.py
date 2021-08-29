@@ -1,9 +1,5 @@
-from preprocessor import Preprocessor
 from sklearn.cluster import KMeans
-from numbers import Number
-from pandas import DataFrame
-import numpy as np
-import os, sys, codecs, argparse, pprint, time
+import os, sys, time
 from utils import *
 #from word_arithmetic import *
 from cluster_comparison import assess_clusters

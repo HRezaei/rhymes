@@ -34,7 +34,7 @@ datasets = list_datasets()
 logger.info('Found ' + str(len(datasets)) + ' datasets in input folder')
 default_embeddings = [
     'WordToVec',
-    #'Glove'
+    'Glove'
 ]
 
 for dataset in datasets:
