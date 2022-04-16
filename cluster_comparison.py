@@ -18,20 +18,19 @@ def clusters_average_rhyme_similarity(clusters):
     similarities = []
     for c in clusters:
         if len(c) < 2:
-            #similarities.append(0)
+            # similarities.append(0)
             continue
-        similarities.append(100*cluster_rhyme_similarity(c))
+        similarities.append(100 * cluster_rhyme_similarity(c))
 
-    plt.hist(similarities, 100)
-    #plt.show()
     average = sum(similarities) / len(similarities)
-    return average, plt
+    return average, similarities
 
 
 def assess_clusters(clusters):
-    
-    avg, plot = clusters_average_rhyme_similarity(clusters)
+    avg, data = clusters_average_rhyme_similarity(clusters)
     print("Clusters avg:", avg)
+    max_similarity = max(data)
+    charts_data = [data]
 
     random_clusters = {}
     all_words = list(chain.from_iterable(clusters))
@@ -42,12 +41,20 @@ def assess_clusters(clusters):
         else:
             random_clusters[toss] = [w]
 
-    avg, plot = clusters_average_rhyme_similarity(list(random_clusters.values()))
-    plot.xlabel("Average rhytmic similarity (percentage)", fontsize=14)  
-    plot.ylabel("Number of clusters", fontsize=14)
+    avg, data = clusters_average_rhyme_similarity(list(random_clusters.values()))
+    max_similarity = int(max(max_similarity, max(data)))
+    charts_data.append(data)
+    colors = ['#0072AE', '#FD7E10']
+    bin_width = 1
+    fig, axes = plt.subplots(2, sharex=True, sharey=False)
+    for ax, data, color in zip(axes.flatten(), charts_data, colors):
+        ax.hist(data, bins=range(0, max_similarity+bin_width, bin_width), log=True, color=color)
 
+    plt.xlabel("Average rhythmic similarity (percentage)", fontsize=12)
+    plt.ylabel("Number of clusters", fontsize=12)
+    #print("Max sim: ", max_similarity)
     print("Random Clusters avg:", avg)
-    return plot
+    return plt
     #sorted_stats = {k: str(v) + " " + ", ".join(clusters[k]) for k, v in sorted(cluster_stats.items(), key=lambda item: item[1])}
     #return sorted_stats
 

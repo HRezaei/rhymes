@@ -10,6 +10,7 @@ class Glove():
         if not os.path.isfile(input_file_path):
             raise Exception('Could not find ' + input_file_path)
 
+        self.dataset_name = dataset_name
         self.input_file_path = input_file_path
         self.dataset_path = 'input/' + dataset_name 
         self.corpus_file_path = self.dataset_path + '/corpus_for_glove.txt'
@@ -37,7 +38,10 @@ class Glove():
                 documents.append(document)
                 last_document_lines = []
                 continue
-            words = [word.lower() for word in nltk.word_tokenize(line) if word.isalpha()]    
+            if self.dataset_name == 'quran':
+                words = [word.lower() for word in nltk.word_tokenize(line) if word]
+            else:
+                words = [word.lower() for word in nltk.word_tokenize(line) if word.isalpha()]
             last_document_lines.append(" ".join(words))
         if len(last_document_lines):
             document = " ".join(last_document_lines)

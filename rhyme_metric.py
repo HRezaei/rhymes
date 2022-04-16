@@ -1,10 +1,11 @@
 from utils import load_json
 
+
 def rhyme_similarity(word1, word2):
-    '''cache_key = word1+'@'+word2 if word1 > word2 else word2+'@'+word1
+    """cache_key = word1+'@'+word2 if word1 > word2 else word2+'@'+word1
     if cache_key in rhyme_similarity.cache:
         return rhyme_similarity.cache[cache_key]
-    '''
+    """
     len1 = len(word1)
     len2 = len(word2)
     min_len = min(len1, len2)

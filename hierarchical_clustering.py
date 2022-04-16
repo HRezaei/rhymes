@@ -1,13 +1,14 @@
 from utils import *
 from rhyme_metric import *
 
+
 class HierarchicalClustering:
-    
+
     def __init__(self, dataset_name) -> None:
-		self.dataset_name = dataset_name
-		self.input_path = 'input/' + dataset_name
-		self.output_path = 'output/' + dataset_name
-		self.reports_path = self.output_path + '/reports'
+        self.dataset_name = dataset_name
+        self.input_path = 'input/' + dataset_name
+        self.output_path = 'output/' + dataset_name
+        self.reports_path = self.output_path + '/reports'
 
     def cluster_level_nodes():
         content = read_file(self.input_path + '/vocab.txt')
@@ -18,7 +19,6 @@ class HierarchicalClustering:
 
         clusters = merge_nearest_words(words)
         json_write(clusters, 'hierarchical_clusters0.json')
-
 
     def hierarchical_level(i):
         clusters_simple = json_read('hierarchical_clusters' + str(i) + '.json')
@@ -41,14 +41,13 @@ class HierarchicalClustering:
             else:
                 pattern_set[pattern] = [cluster['words']]
 
-        rep_patterns = [(p, pattern_set[p]) for p in pattern_set if len(pattern_set[p])>1]
+        rep_patterns = [(p, pattern_set[p]) for p in pattern_set if len(pattern_set[p]) > 1]
         upper_level_clusters = merge_nearest_words([c['pattern'] for c in clusters])
 
-        json_write(upper_level_clusters, 'hierarchical_clusters' + str(i+1) + '.json')
-
+        json_write(upper_level_clusters, 'hierarchical_clusters' + str(i + 1) + '.json')
 
     def merge_nearest_words(words):
-        #clusters_file = open('hierarchical_clusters0.txt', 'a+')
+        # clusters_file = open('hierarchical_clusters0.txt', 'a+')
 
         clusters = []
         remained_words = words.copy()
@@ -80,11 +79,10 @@ class HierarchicalClustering:
                 # clusters_file.flush()
             # print(cluster)
 
-        #clusters_file.close()
-        #json_write(remained_words, 'no_similars.json')
+        # clusters_file.close()
+        # json_write(remained_words, 'no_similars.json')
         return clusters
 
 
-#cluster_level_nodes()
+# cluster_level_nodes()
 hierarchical_level(0)
-

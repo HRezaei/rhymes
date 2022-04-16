@@ -1,0 +1,4 @@
+*.pyc
+.DS_Store
+/input/*/
+/output/*

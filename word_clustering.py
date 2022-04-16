@@ -46,11 +46,11 @@ class VectorClustering():
 		logger.info("Loaded vectors: " + embedding_system)
 
 		logger.info("Started clustering: " + embedding_system)
-		kmeans_model = KMeans(init='k-means++', n_clusters=self.num_clusters, n_jobs=self.num_jobs, n_init=10)
+		kmeans_model = KMeans(init='k-means++', n_clusters=self.num_clusters, n_init=10)
 		kmeans_model.fit(df)
 		logger.info("Finished clustering: " + embedding_system)
 
-		cluster_labels   = kmeans_model.labels_
+		cluster_labels = kmeans_model.labels_
 		# cluster_inertia = kmeans_model.inertia_
 		cluster_to_words = list(self.find_word_clusters(labels_array, cluster_labels).values())
 

@@ -1,7 +1,7 @@
 
 
 
-f = open('data/Arabic-Original.csv')
+f = open('Arabic-Original.csv')
 c = f.read()[1:]
 l = c.split('\n')
 lp = [k.split('|') for k in l]
@@ -29,6 +29,18 @@ def writeForGlove():
     f.close()
     print(v[1:20])
 
+
+def writeAsRawForBoth():
+    x = []
+    for sura in dic:
+        x.append('\n'.join(dic[sura]))
+        x.append("\n")
+    f = open('../input/quran/raw.txt', '+w')
+    f.writelines('\n'.join(x))
+    f.close()
+    print(v[1:20])
+
+
 def writeForWord2Vec():
     import json
     from nltk.tokenize import word_tokenize
@@ -43,4 +55,6 @@ def writeForWord2Vec():
 
 
 if __name__ == '__main__':
-    writeForWord2Vec()
+    #writeForWord2Vec()
+    #writeForGlove()
+    writeAsRawForBoth()

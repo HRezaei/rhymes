@@ -4,9 +4,11 @@ from pathlib import Path
 from word_clustering import VectorClustering
 from loguru import logger
 
+
 def list_datasets():
     datasets = [item for item in os.listdir('input') if os.path.isdir('input/' + item)]
     return datasets
+
 
 def check_dataset_validity(dataset_path):
     sentences_path = dataset_path + '/raw.txt'
@@ -14,6 +16,7 @@ def check_dataset_validity(dataset_path):
         print("Could not find: " + sentences_path)
         return False
     return True
+
 
 def make_output_folders(dataset_name):
     output_path = 'output/' + dataset_name  
@@ -25,7 +28,7 @@ def make_output_folders(dataset_name):
 
     Path(output_path + '/reports').mkdir(parents=True, exist_ok=True)
 
-    #make also a folder in input:
+    # make also a folder in input:
     Path('input/' + dataset_name + '/vectors').mkdir(parents=True, exist_ok=True)
 
 
@@ -40,12 +43,12 @@ default_embeddings = [
 for dataset in datasets:
     logger.info('Processing dataset: ' + dataset)
     try: 
-        #check if corpus exists:
+        # check if corpus exists:
         if not check_dataset_validity('input/' + dataset):
             print("Skipped " + dataset)
             continue
 
-        #create folders, if not properly structured:
+        # create folders, if not properly structured:
         make_output_folders(dataset)
 
         experiment = VectorClustering(dataset)
@@ -54,3 +57,4 @@ for dataset in datasets:
             experiment.calculate_inter_similarity(embedding_system)
     except Exception as e:
         logger.error(e)
+
